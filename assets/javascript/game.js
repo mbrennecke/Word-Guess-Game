@@ -9,6 +9,10 @@ var remaining = "";
 
 function wordCreate() {
 	word = wordList[Math.floor(Math.random() * wordList.length)];
+	remainingShow();
+}
+
+function remainingShow() {
 	for (i=0; i < word.length; i++){
 		remaining = remaining + "_ ";
 	}
@@ -18,6 +22,12 @@ function wordCreate() {
 function letterReplace(letter) {
 	var replace = word.lastIndexOf(letter);
 	
+}
+
+function wordArraySet(letterToArray, guess) {
+	var wordArray = Array.from(remaining);
+	wordArray[letterToArray] = guess;
+	alert(wordArray);
 }
 
 document.onkeyup = function(event) {
@@ -32,7 +42,13 @@ document.onkeyup = function(event) {
 	}
 	
 	if (word.includes(userGuess)) {
-		
+		var last = word.lastIndexOf(userGuess);
+		wordArraySet(last, userGuess);
+		last = word.lastIndexOf(userGuess, (last - 1));
+		while (last > 0) {
+			wordArraySet(last, userGuess);
+			last = word.lastIndexOf(userGuess, (last - 1));
+		}
 	}
 	
 }
