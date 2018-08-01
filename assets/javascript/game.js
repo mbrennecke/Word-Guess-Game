@@ -9,26 +9,34 @@ var remaining = "";
 
 function wordCreate() {
 	word = wordList[Math.floor(Math.random() * wordList.length)];
-	remainingShow();
+	remainingInitialize();
 }
 
 function remainingShow() {
+	document.getElementById("currentWord").innerHTML = remaining;
+}
+
+function remainingInitialize() {
 	for (i=0; i < word.length; i++){
 		remaining = remaining + "_ ";
 	}
-	document.getElementById("currentWord").innerHTML = remaining;
+	remainingShow();
 }
+
+
 
 function letterReplace(letter) {
 	var replace = word.lastIndexOf(letter);
 	
 }
-
+/*
 function wordArraySet(letterToArray, guess) {
-	var wordArray = Array.from(remaining);
-	wordArray[letterToArray] = guess;
-	alert(wordArray);
-}
+	var newWord = ""
+	for (var i = 0; i<letterToArray, i++) {
+		newWord = newWord + "_ " 
+	}
+	
+}*/
 
 document.onkeyup = function(event) {
 
@@ -40,7 +48,7 @@ document.onkeyup = function(event) {
 		lettersGuessed = lettersGuessed + userGuess;
 		document.getElementById("letters").innerHTML = lettersGuessed;
 	}
-	
+	/*
 	if (word.includes(userGuess)) {
 		var last = word.lastIndexOf(userGuess);
 		wordArraySet(last, userGuess);
@@ -49,6 +57,22 @@ document.onkeyup = function(event) {
 			wordArraySet(last, userGuess);
 			last = word.lastIndexOf(userGuess, (last - 1));
 		}
+	}*/
+	
+	if (word.includes(userGuess)) {
+		var letterChecker = "";
+		var slicer = word;
+		var newWord = "";
+		for (i=0; i<word.length; i++){
+			slicer.slice(0);
+			if (slicer.includes(userGuess)) {
+				newWord = newWord + "_ ";
+			} else {
+				newWord = newWord + userGuess;
+			}
+		}
+		remaining = newWord;
+		alert(remaining);
 	}
 	
 }
