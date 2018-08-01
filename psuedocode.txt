@@ -1,0 +1,14 @@
+user hits key to begin
+	word generated
+	user presses key to guess
+		guess checked against word
+		letter displayed as guess
+			if letter is a match
+				update word
+			if letter is not a match
+				decrement attempts counter
+				if decrement counter reaches 0
+					increment losses
+			if word gets completed
+				increment wins
+	restart at win or loss
