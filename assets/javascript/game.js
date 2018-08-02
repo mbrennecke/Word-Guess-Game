@@ -6,6 +6,7 @@ var guesses = 8;
 var word = "";
 var lettersGuessed = "";
 var remaining = "";
+var wordSlice = "";
 
 function wordCreate() {
 	word = wordList[Math.floor(Math.random() * wordList.length)];
@@ -23,56 +24,46 @@ function remainingInitialize() {
 	remainingShow();
 }
 
-
-
-function letterReplace(letter) {
-	var replace = word.lastIndexOf(letter);
-	
+function wordSlicer(sliceWord) {
+	return sliceWord.slice(1);
 }
-/*
-function wordArraySet(letterToArray, guess) {
-	var newWord = ""
-	for (var i = 0; i<letterToArray, i++) {
-		newWord = newWord + "_ " 
-	}
-	
-}*/
-
-document.onkeyup = function(event) {
-
-	var userGuess = event.key;
-	
-	if (lettersGuessed.includes(userGuess)) {
-		document.getElementById("letters").innerHTML = lettersGuessed;
-	} else {
-		lettersGuessed = lettersGuessed + userGuess;
-		document.getElementById("letters").innerHTML = lettersGuessed;
-	}
-	/*
-	if (word.includes(userGuess)) {
-		var last = word.lastIndexOf(userGuess);
-		wordArraySet(last, userGuess);
-		last = word.lastIndexOf(userGuess, (last - 1));
-		while (last > 0) {
-			wordArraySet(last, userGuess);
-			last = word.lastIndexOf(userGuess, (last - 1));
-		}
-	}*/
-	
-	if (word.includes(userGuess)) {
-		var letterChecker = "";
-		var slicer = word;
-		var newWord = "";
-		for (i=0; i<word.length; i++){
-			slicer.slice(0);
-			if (slicer.includes(userGuess)) {
-				newWord = newWord + "_ ";
-			} else {
-				newWord = newWord + userGuess;
-			}
-		}
-		remaining = newWord;
-		alert(remaining);
-	}
-	
+function letterSlicer(sliceWord) {
+		var negativeSlicer = 0;
+		negativeSlicer = 1-sliceWord.length;
+		return sliceWord.slice(0, negativeSlicer);
 }
+function guessesShow() {
+	document.getElementById("guesses").innerHTML = guesses;
+}
+
+
+	document.onkeyup = function(event) {
+if (guesses > 0) {
+		var userGuess = event.key;
+		
+		if (lettersGuessed.includes(userGuess)) {
+			document.getElementById("letters").innerHTML = lettersGuessed;
+		} else {
+			lettersGuessed = lettersGuessed + userGuess;
+			document.getElementById("letters").innerHTML = lettersGuessed;
+		}
+
+		if (word.includes(userGuess)) {
+			var newWord = "";
+			var wordSlice = word;
+
+		} else {
+			guesses--;
+			guessesShow();
+		}
+	}
+	else {
+		remaining = "";
+		remainingShow();
+		guesses = 8;
+		guessesShow();
+		wordCreate();
+}
+	}
+		
+	
