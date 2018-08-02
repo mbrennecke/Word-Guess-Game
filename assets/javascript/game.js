@@ -94,8 +94,7 @@ function gameWin() {
 		document.getElementById("lead").innerHTML = "&nbsp";
 		if (notWin) {
 			if (guesses > 0) {
-				var userGuess = event.key;
-				userGuess.toLowerCase();
+				var userGuess = event.key.toLowerCase();
 				if (lettersGuessed.includes(userGuess)) {
 					letterGuessedShow();
 				} else {
