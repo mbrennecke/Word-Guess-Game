@@ -72,7 +72,8 @@ function guessesReset() {
 	document.getElementById("letters").innerHTML = "&nbsp";
 }
 
-function gameReset() {
+function gameReset(winLose) {
+	document.getElementById(winLose).style.display = "none";
 	guesses = 8;
 	guessesShow();
 	guessesReset();
@@ -81,22 +82,16 @@ function gameReset() {
 }
 
 function gameLose() {
-	alertHide("lose");
-}
-function gameWin() {
-	alertHide("win");
+	document.getElementById("lose").style.display = "block";
 }
 
-function alertHide(div) {
-    var alert = document.getElementById(div);
-    if (alert.style.display === "none") {
-        alert.style.display = "block";
-    } else {
-        alert.style.display = "none";
-    }
+function gameWin() {
+	document.getElementById("win").style.display = "block";
 }
+
 
 	document.onkeyup = function(event) {
+		document.getElementById("lead").innerHTML = "&nbsp";
 		if (notWin) {
 			if (guesses > 0) {
 				var userGuess = event.key;
@@ -126,9 +121,9 @@ function alertHide(div) {
 				}
 			}
 			else {
-				gameReset();
+				gameReset("lose");
 			}
 		} else {
-			gameReset();
+			gameReset("win");
 		}
 	}
