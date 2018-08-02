@@ -7,6 +7,8 @@ var word = "";
 var lettersGuessed = "";
 var remaining = "";
 var wordSlice = "";
+var remainingArr = [];
+var notWin = true;
 
 function wordCreate() {
 	word = wordList[Math.floor(Math.random() * wordList.length)];
@@ -18,52 +20,115 @@ function remainingShow() {
 }
 
 function remainingInitialize() {
+	remaining = "";
 	for (i=0; i < word.length; i++){
 		remaining = remaining + "_ ";
 	}
+	remainingArray();
 	remainingShow();
 }
 
-function wordSlicer(sliceWord) {
-	return sliceWord.slice(1);
+function remainingArray() {
+	remainingArr = remaining.split(" ");
+	remainingArr.pop();
 }
-function letterSlicer(sliceWord) {
-		var negativeSlicer = 0;
-		negativeSlicer = 1-sliceWord.length;
-		return sliceWord.slice(0, negativeSlicer);
-}
+
 function guessesShow() {
 	document.getElementById("guesses").innerHTML = guesses;
 }
 
+function letterGuessedShow() {
+	document.getElementById("letters").innerHTML = lettersGuessed;
+}
+
+function remainingReplacer(i, guess) {
+	var newWord = "";
+	remainingArr[i] = guess;
+	for (var j = 0; j<remainingArr.length; j++){
+		newWord = newWord + remainingArr[j] + " ";		
+	}
+	remaining = newWord;
+	remainingShow();
+}
+
+function remainingChecker() {
+	var checkWord = "";
+	var checkWordArr = [];
+	
+	checkWordArr = remaining.split(" ");
+	checkWordArr.pop();
+	for (var j = 0; j<remainingArr.length; j++){
+		checkWord = checkWord + checkWordArr[j];		
+	}
+	if (checkWord == word) {
+		gameWin();
+		notWin = false;
+	}
+}
+
+function guessesReset() {
+	
+	lettersGuessed = "";
+	document.getElementById("letters").innerHTML = "&nbsp";
+}
+
+function gameReset() {
+	guesses = 8;
+	guessesShow();
+	guessesReset();
+	wordCreate();
+	notWin = true;
+}
+
+function gameLose() {
+	alertHide("lose");
+}
+function gameWin() {
+	alertHide("win");
+}
+
+function alertHide(div) {
+    var alert = document.getElementById(div);
+    if (alert.style.display === "none") {
+        alert.style.display = "block";
+    } else {
+        alert.style.display = "none";
+    }
+}
 
 	document.onkeyup = function(event) {
-if (guesses > 0) {
-		var userGuess = event.key;
-		
-		if (lettersGuessed.includes(userGuess)) {
-			document.getElementById("letters").innerHTML = lettersGuessed;
-		} else {
-			lettersGuessed = lettersGuessed + userGuess;
-			document.getElementById("letters").innerHTML = lettersGuessed;
-		}
+		if (notWin) {
+			if (guesses > 0) {
+				var userGuess = event.key;
+				userGuess.toLowerCase();
+				if (lettersGuessed.includes(userGuess)) {
+					letterGuessedShow();
+				} else {
+					lettersGuessed = lettersGuessed + userGuess;
+					letterGuessedShow();
+				}
 
-		if (word.includes(userGuess)) {
-			var newWord = "";
-			var wordSlice = word;
-
+				if (word.includes(userGuess)) {
+					var wordArr = [];
+					wordArr = word.split("");
+					for (var i=0; i<word.length; i++) {
+						if (wordArr[i] == userGuess) {
+							remainingReplacer(i, userGuess);
+						}
+					}
+					remainingChecker();
+				} else {
+					guesses--;
+					guessesShow();
+					if (guesses == 0) {
+						gameLose();
+					}
+				}
+			}
+			else {
+				gameReset();
+			}
 		} else {
-			guesses--;
-			guessesShow();
+			gameReset();
 		}
 	}
-	else {
-		remaining = "";
-		remainingShow();
-		guesses = 8;
-		guessesShow();
-		wordCreate();
-}
-	}
-		
-	
