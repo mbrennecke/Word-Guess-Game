@@ -10,14 +10,20 @@ var wordSlice = "";
 var remainingArr = [];
 var notWin = true;
 
+//Grabs the word that will be used for the game, initialized by the HTML
+
 function wordCreate() {
 	word = wordList[Math.floor(Math.random() * wordList.length)];
 	remainingInitialize();
 }
 
+//Updates the DOM to show the word in progress
+
 function remainingShow() {
 	document.getElementById("currentWord").innerHTML = remaining;
 }
+
+//Creates the visual look of remaining, ie _ _ _ _ _
 
 function remainingInitialize() {
 	remaining = "";
@@ -28,18 +34,26 @@ function remainingInitialize() {
 	remainingShow();
 }
 
+//Creates an array of remaining to show correct letters properly
+
 function remainingArray() {
 	remainingArr = remaining.split(" ");
 	remainingArr.pop();
 }
 
+//Shows the guessed letters
+
 function guessesShow() {
 	document.getElementById("guesses").innerHTML = guesses;
 }
 
+//Doesn't allow duplicate letter guesses to be counted against player or to be shown
+
 function letterGuessedShow() {
 	document.getElementById("letters").innerHTML = lettersGuessed;
 }
+
+//Updates remaining to show the letters that are correct, replacing the _
 
 function remainingReplacer(i, guess) {
 	var newWord = "";
@@ -51,12 +65,17 @@ function remainingReplacer(i, guess) {
 	remainingShow();
 }
 
+//Splits the selected word into an array to check guesses letters against
+
 function remainingChecker() {
 	var checkWord = "";
 	var checkWordArr = [];
-	
+	//remaining is used to check against the word for win condition
 	checkWordArr = remaining.split(" ");
+	//remaining has a space at the end that needs removed
 	checkWordArr.pop();
+	//remaining array is made into a string, probably could have used a method for
+	//this. But I didn't know that at the time
 	for (var j = 0; j<remainingArr.length; j++){
 		checkWord = checkWord + checkWordArr[j];		
 	}
@@ -66,11 +85,16 @@ function remainingChecker() {
 	}
 }
 
+//Reset function for guesses area
+
 function guessesReset() {
 	
 	lettersGuessed = "";
+	//non-breaking space character to keep row spacing
 	document.getElementById("letters").innerHTML = "&nbsp";
 }
+
+//Reset function for the game
 
 function gameReset(winLose) {
 	document.getElementById(winLose).style.display = "none";
@@ -81,48 +105,61 @@ function gameReset(winLose) {
 	notWin = true;
 }
 
+//Function that displays a lose message
+
 function gameLose() {
 	document.getElementById("lose").style.display = "block";
 }
+
+//Funciton that displays a win message
 
 function gameWin() {
 	document.getElementById("win").style.display = "block";
 }
 
+//Event listener for key presses
 
-	document.onkeyup = function(event) {
-		document.getElementById("lead").innerHTML = "&nbsp";
-		if (notWin) {
-			if (guesses > 0) {
-				var userGuess = event.key.toLowerCase();
-				if (lettersGuessed.includes(userGuess)) {
-					letterGuessedShow();
-				} else {
-					lettersGuessed = lettersGuessed + userGuess;
-					letterGuessedShow();
-				}
-
-				if (word.includes(userGuess)) {
-					var wordArr = [];
-					wordArr = word.split("");
-					for (var i=0; i<word.length; i++) {
-						if (wordArr[i] == userGuess) {
-							remainingReplacer(i, userGuess);
-						}
-					}
-					remainingChecker();
-				} else {
-					guesses--;
-					guessesShow();
-					if (guesses == 0) {
-						gameLose();
+document.onkeyup = function(event) {
+	//non-breaking space character to keep row spacing
+	document.getElementById("lead").innerHTML = "&nbsp";
+	if (notWin) {
+		if (guesses > 0) {
+			var userGuess = event.key.toLowerCase();
+			if (lettersGuessed.includes(userGuess)) {
+				letterGuessedShow();
+			} else {
+				lettersGuessed = lettersGuessed + userGuess;
+				letterGuessedShow();
+			}
+//verifies if the letter exists in the word
+			if (word.includes(userGuess)) {
+				var wordArr = [];
+//makes the word an array to send the letter in the corrrect position 
+//create remaining				
+				wordArr = word.split("");
+				for (var i=0; i<word.length; i++) {
+					if (wordArr[i] == userGuess) {
+						remainingReplacer(i, userGuess);
 					}
 				}
+//check for win condition
+				remainingChecker();
+//if letter is not in the word, guesses counter is decremented				
+			} else {
+				guesses--;
+				guessesShow();
+//Lose condition check
+				if (guesses == 0) {
+					gameLose();
+				}
 			}
-			else {
-				gameReset("lose");
-			}
-		} else {
-			gameReset("win");
 		}
+//Game reset with lose message
+		else {
+			gameReset("lose");
+		}
+//Game reset with win message	
+	} else {
+		gameReset("win");
 	}
+}
