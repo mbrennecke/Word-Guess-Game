@@ -1,7 +1,19 @@
 # Word-Guess-Game
 
-What it does: This project is a word guess game. User will choose letters to solve hidden word.
+This project is a basic trivia game
 
-To get started: Click any key to begin.
+## What this project does
 
-Maintained and contributed to by: Matthew Brennecke mbrennecke10@gmail.com
+This project is a word guess game. User will choose letters to solve hidden word.
+
+## Why the project is useful
+
+This project is useful for learning javascript and dynamically generating HTML
+
+## Who maintains this project
+
+This project is maintained by Matthew Brennecke mbrennecke10@gmail.com
+
+## Link to this project
+
+https://mbrennecke.github.io/Word-Guess_Game/
