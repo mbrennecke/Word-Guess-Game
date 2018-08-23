@@ -14,6 +14,6 @@ This project is useful for learning javascript and dynamically generating HTML
 
 This project is maintained by Matthew Brennecke mbrennecke10@gmail.com
 
-## Link to this project
+## Link to deployed project
 
 https://mbrennecke.github.io/Word-Guess_Game/
